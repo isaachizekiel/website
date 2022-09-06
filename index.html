@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">  
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>BT251 | Buy new songs and get a block reward for sharing to others</title>
+    <meta content="BT251 is a P2P platform which enables you to rent your internet connection and storage space for a block reward" name="description">
+
+    <meta property="og:title" content="Buy new songs and get a block reward for sharing to others" />
+    <meta property="og:type" content="image/png" />
+    <meta property="og:url" content="https://www.bt251.com" />
+    <meta property="og:image" content="https://www.bt251.com/bt251-thumb.png" />
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous">
+    
+    
+    <style>
+      #processing {
+	  width: 100%;
+      }
+
+      img {
+	  border:1px solid white;
+	  border-radius:6px;
+	  box-sizing:border-box;
+	  height:55px;
+      }
+
+      .card {
+	  margin-top: 16px;
+      }
+
+      .footer {
+	  margin-top: 32px;
+      }
+    </style>
+    
+  </head>
+  <body>
+    <div class="container">
+      <h1>BT251!</h1>
+
+      <div class= "row">
+	<div class="col-md-12">
+	  <p class="lead">The core concept with BT251 is that it divides one file in to various parts and make it accessible to any one who want to download part of the file, any who downloads different parts of the file from different sources can assemble different parts of the file and get the original file. The benefit of this approach is people can participate on the distribution of the file meaning everyone can be a music distributor and collect a reward for sending parts of the file. The following simulation shows how BT251 operates.</p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6">
+	  <canvas id="processing" datasrc="bt.js"></canvas>
+	</div>
+
+	<div class="col-md-6 table-responsive-md">	  
+	  <table class="table">
+	    <thead>
+	      <tr>
+		<th scope="col">Total Peers</th>
+		<th scope="col">Artist</th>
+		<th scope="col">BT251</th>
+		<th scope="col"></th>
+		<th scope="col" id="play"></th>
+	      </tr>
+	    </thead>
+	    <tbody id="tbodyTop"> </tbody>
+	    
+	    <thead>
+	      <tr>
+		<th scope="col">id</th>
+		<th scope="col">myBlks</th>
+		<th scope="col">needBlks
+		</th>
+		<th scope="col">myBal</th>
+		<th scope="col">myRew</th>		
+	      </tr>
+	    </thead>
+	    <tbody id="tbody">
+	      <!-- -->
+	    </tbody>
+	  </table>
+	</div>
+      </div>
+
+
+      <!-- The main discription -->
+      <div class="row card">
+	<div class="card-body">
+	  <p class="h4 card-title">The Basics</p>
+	  <div class="col-md-12">
+	    <p class="lead">Using BT251 We sale music based on the size, 1 song for about 80 (.8 ETB), then you get a 40 (.4 ETB) cents reward every time you seed the complete song.</p>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">If you are The first 10 downloaders the download might be a little bit slow but it is guaranteed you get the highest reward available. For example : When 90 people download the torrent from The first 10 downloaders The first 10 downloaders get 5 x 9 = 45 Birr reward each. The price of 12 songs torrent is ~10 Birr and its reward value is ~5 Birr; if download is evenly distributed between The first 10 downloaders, that is each of the first 10 downloaders peers seed The torrent for 9 peers.</p>
+	  </div>
+
+	  <div class="col-md-12">
+	    <p class="lead">When another 900 downloaders buy the 12 music tracks torrent for 10 Birr there is 900 x 5 = 4,500 Birr reward available, then (The available reward 4,500) / (The first 10  downloaders + The first 90 downloaders) = 45 Birr each. At this point The first 10 downloaders got 90 Birr and The first 90 downloaders got 45 Birr each, from the music they bought for 10 Birr.</p>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">The Big Picture is If There are ten torrent which are sold for 10 Birr each and they are downloaded 1 Million times each. We can say... </p>
+	    <ul>
+	      <li class="lead">The first 10 downloaders get 255 x 10 = 2,550 Birr From a 100 Birr Torrent</li>
+	      <li class="lead">The first 100 downloaders get 180 x 10 = 1,800 Birr From a 100 Birr Torrent</li>
+	      <li class="lead">The first 1,000 downloaders get 135 x 10 = 1,350 Birr From a 100 Birr Torrent</li>
+	      <li class="lead">The first 10,000 downloaders get 90 x 10 = 900 Birr From a 100 Birr Torrent</li>
+	      <li class="lead">The first 100,000 downloaders get 45 x 10 = 450 Birr From a 100 Birr Torrent</li>	    	    </ul>
+	  </div>
+
+	  <div class="col-md-12">
+	    <p class="lead">In-order for the first 1,000,000 downloaders to get paid, the 10 torrents needs to be downloaded 10 Million times each, if it doesn't, we say the torrent is saturated, hence it is not profitable and we assume you buy the torrent for the sake of enjoying the music.</p>
+	  </div>
+
+	  <div class="col-md-12">
+	    <p class="lead">The best thing about BT251 is that you can start go a long way with out depositing cash, you can generate blocks inside the app in various ways. Blocks are used to buy a music, you get a Cash Reward in Birr for seeding the music</p>
+	  </div>
+	</div>	
+      </div> <!-- main discription end -->
+
+      <div class="row card">
+	<div class="card-body">
+	  <p class="h4 card-title">The company</p>
+	  <div class="col-md-12">
+	    <p class="lead">BT251 is actively looking for investors who can bring the required value for the startup, as a result we createrd six levels of shares, of all the six levels only the first five levels are unclaimed in total they are 62% of BT251.</p>
+	  </div>
+
+	  <div class="col-md-12">
+	    <p class="lead">We have created a challenge for anyone who wants to claim the prize attached to a specific level.</p>
+	  </div>
+	  
+	  <div class="col-md-12">
+	    <p class="lead">Inside bt251 app there is share a button, you can use it to promote your unique link, your link allows you to get 100 blocks of rewards every time a new person install bt251 using your link, plus if you are the first to reach one of the first five levels you will be able to claim a bt251 share percentage attached to that level.</p>
+	  </div>
+
+
+	  <div class="col-md-12">	  
+	    <p class="lead">level 1 → 100 app installs using your link:</p>
+	    <ul>
+	      <li class="lead">you get 100 x 100 reward blocks (worth 30 Birr)</li>
+	      <li class="lead">if you are the first to reach level 1 you will be awarded 2% share of bt251 (the start up).</li>
+	    </ul>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">level 2 → 1k app installs using your link:</p>
+	    <ul>
+	      <li class="lead">you get 1000 x 100 reward  blocks (worth 305 Birr)</li>
+	      <li class="lead">if you are the first to reach this level you will be awarded 4% share of bt251 (the start up). And You will be required to transfer your level 1 share (if you have one) to the individual who has the biggest app install value at level 1, if no one claimed share at level 1 you will divide the 2% share with level 6 until someone reaches level 1.</li>
+	    </ul>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">level 3 → 10k app installs using your link:</p>
+	    <ul>
+	      <li class="lead">you get 10k x 100 reward  blocks (worth 3,051 Birr)</li>
+	      <li class="lead">if you are the first to reach this level you will be awarded 8% share of bt251 (the start up). And You will be required to transfer your level 2 share (if you have one) to the individual who has the biggest app install value at level 2, if no one owns share at level 2 you will divide the 4% share with level 6 until someone reaches level 2.</li>
+	    </ul>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">level 4 → 100k app installs using your link:</p>
+	    <ul>
+	      <li class="lead">you get 100k x 100 reward  blocks (worth 30,517 Birr)</li>
+	      <li class="lead">if you are the first to reach this level you will be awarded 16% share of bt251 (the start up). and You will be required to transfer your level 3 share (if you have one) to the individual who has the biggest app install value at level 3, if no one owns share at level 3 you will divide the 8% share with level 6 until someone reaches level 3.</li>
+	    </ul>
+	  </div>
+
+	  <div class="col-md-12">	  
+	    <p class="lead">level 5 → 1m app installs using your link:</p>
+	    <ul>
+	      <li class="lead">you get 1m x 100 reward  blocks (worth 375,175 Birr)</li>
+	      <li class="lead">if you are the first to reach this level you will be awarded 32% share of bt251 (the start up). And You will be required to transfer your level 4 share (if you have one) to the individual who has the biggest app install value at level 4, if no one owns share at level 4 you will divide the 16% share with level 6 until someone reaches level 4.
+</li>
+	    </ul>
+	  </div>
+
+
+	  <div class="col-md-12">	  
+	    <p class="lead"><mark>62% of bt251 share is available to be distributed between 5 levels;<mark></p>
+	    <p class="lead"><mark>38% percent of the bt251 share is already claimed by the creators of the platform;<mark></p>
+	    <p class="lead"><mark>When you progress to the next level you are required to transfer shares to the previous level if the share at that level is claimed else you will divide it with level 6 until some individual reach the previous level for the first time;<mark></p>
+	    <p class="lead"><mark>Shares can only be transferred to the previous level.<mark></p>
+	    <p class="lead"><mark>The challenge ends when someone reaches level 5 for the first time and all other levels are owned by different individuals, then there will be no more transfer of shares based on app install.<mark></p>
+	    <p class="lead"><mark>Level 5 is the last level of the app install challenge;<mark></p>
+	    <p class="lead"><mark>Participants who did won one of bt251 shares and any one who has 100 app installs will join bt251 agent and super seeder program. The agent program allows members to buy blocks from bt251 and sale it for bt251 users; when you are a super seeder you will rent a cloud server then you will be given web access to the server.<mark></p>
+	    <p class="lead"><mark>Bt251 blocks are minted when a bt251 transaction is validated, the value is based on the amount of internet resource spent for 16kb of data or it can be minted directly by providing equal amount through a banks.<mark></p>
+	  </div>
+		  
+	</div>	
+      </div>
+
+
+      <div class="row card">
+	<div class="card-body">
+	  <p class="h4 card-title">FAQ</p>
+
+	  <div class="accordion" id="accordionExample">
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingOne">
+		<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		  Did you really get permission from the artists?
+		</button>
+	      </h2>
+	      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  I asked for permission to use the content and I have a consent by Email.
+		</div>
+	      </div>
+	    </div>
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingTwo">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+		  What is your name and why is your identity hidden if you are all legit ?
+		</button>
+	      </h2>
+	      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  My name is Yishak, My identity is not hidden you can refer to the link at the bottom of bt251.com.
+		</div>
+	      </div>
+	    </div>
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingThree">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		  Why does your product look like a pyramid scheme ?
+		</button>
+	      </h2>
+	      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  It is not a pyramid scheme for the following reasons
+		  <ul>
+		    <li>
+		      Pyramid scheme Emphasis on recruiting. BT251 is not recruiting we creating a  community.
+		    </li>
+
+		    <li>
+		      In pyramid scheme No genuine product or service is sold. In BT251 we buy data and we sale content, the content can be a music, book, any digital content or even a stream.
+		    </li>
+
+		    <li>
+		      Pyramid scheme promises of high returns in a short time period. In BT251 to be successful one has to seed continuously multiple torrents in that case it is very likely one can get a good return of investment.
+		    </li>
+
+		    <li>
+		      Easy money or passive income. As I said in BT251 we buy data and we sale content that means you have spend your internet connection to get a reward from the sold content.
+		    </li>
+		    
+		    <li>
+		      In Pyramid commission structure is complex. In BT251 you get commission only when you seed the  content.
+		    </li>		    
+		  </ul>
+		</div> <!-- accordion body  -->
+	      </div> <!-- collapse -->
+	    </div> <!-- item -->
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingFour">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+		  If you are giving away pieces of your company , how is that handled ?
+		</button>
+	      </h2>
+	      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  We are planing to start it as a share company or a Plc, when the first person/company reaches 100 downloads to claim the First level share we will give BT251 a legal ground, and then we will launch the company officially. As I said on the description it is not a launched company it is a start-up.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingFive">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+		  If you say your tokens are worth a certain amount of money. What's backing them ?
+		</button>
+	      </h2>
+	      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  BT251 tokens are backed by the internet connection. The amount of money one spend for 16kb of data dictate the value of BT251 token.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingSix">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+		  If you say your tokens are worth a certain amount of money. What's backing them ?
+		</button>
+	      </h2>
+	      <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  BT251 tokens are backed by the internet connection. The amount of money one spend for 16kb of data dictate the value of BT251 token.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingSeven">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+		  Can I just exchange tokens for cash . If so where and how ? And what guarantee is there that in the future I will continue to be able to do so ?
+		</button>
+	      </h2>
+	      <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  Currently Blocks (BT251 tokens) are generated every time a person buys a content from BT251 network or when some one shares BT251 app. (No one can generate BT251 tokens out of thin air even me). But in the future we will generate tokens by depositing equivalent amount in Birr to a National Bank designated banks.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingEight">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+		  If anyone can buy the tokens and become a shareholder . Why all this games ?
+		</button>
+	      </h2>
+	      <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  I don’t know if I put it wrongly in the description, but the only way to get a share is to climb the app install levels. We do not exchange part of BT251 for Birr.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingNine">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+		  That just sounds like a pyramid scheme with extra steps.
+		</button>
+	      </h2>
+	      <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  If you can mention which steps makes it like a pyramid scheme I would like to emphasize on it. Remember not all networks are pyramid scheme, but pyramid scheme a network. For example in pyramid scheme there is an unlimited nesting of reward for example in pyramid scheme there is a given chain namely A → B→ C → D→ E;  A gets reward when B, C, D, E sold a useless product, B gets reward when C, D, E sold a useless product, C reward when D, E sold a useless product and; … even if A did not participate on the sales activity of the useless product for C, D, and E he still gets a commission that is what makes it a pyramid scheme, In BT251 for a given chain A → B → C→ D → E; A gets a commission from only purchase of B because that is where sh/e spent their internet connection. B get gets paid only from the purchase of C. and remember in BT251 all A, B, C, D and E buy an awesome digital content that they enjoy.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingTen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+		  Did you sign a contract with the artists, Are you a licensed distributor ? Do your distribution rights transfer over to your app users? . There are laws that govern the distribution of copywrited content. I got an email just doesn't cut it . And that's just one of the issues
+		</button>
+	      </h2>
+	      <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		   I am a software engineer, and an entrepreneur and I am not a licensed distributor. But remember BT251 is intended to eliminate illegal distribution of copyrighted content by rewarding seeders. I respect other peoples creative work because I my self is a software developer, and the laws are there too protect the artist from distributors who does not share the revenue with the artist, BT251 in on the other hand shares revenue with the artist. The only difference between a legal distributor and an illegal distributor is the question ‘do they share sales revenue with the original author or not’, hence technically BT251 is not an illegal distributor because we share sales revenue with the artist, the only thing BT251 lacks is the legal framework and if things went really really bad with the artist there are levels of penalties we are prepared to accept. and remember the artist’s revenue from BT251 is better than any currently available distributors in Ethiopia or even YouTube, Spotify or iTunes.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingEleven">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+		  "We are not recruiting we are creating a community " is also the mantra for many pyramid schemes
+		</button>
+	      </h2>
+	      <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		   I don’t know that, but that can not be bounded to only pyramid scheme, many community oriented companies uses such phrase , for example github, youtube and many more
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingTwelve">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+		  And a pyramid scheme can offer goods and services . Remember Tiens they had herbs and stuff to offer
+		</button>
+	      </h2>
+	      <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  Yes Tiens provide goods and service, I believe they claim they supply foods for astronauts (which I would like to take with a grain of salt), other pyramid schemes also sale shady products like a course, but when you look deeper the course is about how to sale the course. BT251 sales awesome content which any one is willing to buy even when there is no BT251; and In BT251 we sale 2 MB mp3 file for ~ 20 Cents. A key identifier for a pyramid scheme is people who do not participate in a particular sales processes gets a paid a lot because of the pyramid structure, in BT251 people who do not participate on a particular seeding session do not get paid, because BT251 has a Peer to Peer structure.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+	    
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingThirteen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+		  As a demonstration , try to arrange the levels you talked about in order . Meaning fewer and fewer people will be in the higher levels . Like so
+		</button>
+	      </h2>
+	      <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		   In the creation of BT251 the start-up no one is left behind, every one gets rewarded based on the amount of work they done (sharing the app), for example if I sheared a link for you and you install the app and shaded it and you get a 100 app installed only you can get the 100 app install reward, I only get 1 app install reward if it is only you who installed the app using my link. And in BT251 (the network) people get reward when they seed the content they bought from the network, remember  the content is a valuable work of a given artist not some kind of useless content.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingFourteen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+		  And I'm looking forward to ቃለጉባዔ ሳታሲዝ እንዴት share transfer እንደምታረግ 😂
+		</button>
+	      </h2>
+	      <div id="collapseFourteen" class="accordion-collapse collapse" aria-labelledby="headingFourteen" data-bs-parent="#accordionFourteen">
+		<div class="accordion-body">
+		  As I have stated earlier BT251 will be launched when someone brings 100 app downloads using the link in the app; after the first 100 app downloads on Google Play Store, BT251 will have a a legal frame work to operate in Ethiopia.
+		  <mark>And by the way in Ethiopian law emails, chats, posts and other digital contents can be used as forensic evidence, that means everything I put on the internet about BT251 could be used to enforce my claims. i.e. if I did not send the revenue from the content to the artist, or if I do not establish the company as a share or Plc up on the arrival of the first person who has 100 app installs and give 2% of BT251 to the first 100 in install provider.</mark>
+
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingFifteen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+		  If you genuinely want to distribute digital content, why not host it on your own server? Why torrent?
+		</button>
+	      </h2>
+	      <div id="collapseFifteen" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  The first reason I did not want to host it on my own server is because it is very hard if not impossible to protect a copyrighted content online and offline. Online copyright content protection needs a specialized server infrastructure like YouTube or TikTok. My second reason is In Ethiopia most  content creators are not able squeeze every last drop their creative work because production companies can not protect the content on the internet, on blue tooth or transfer. We came up with a solution to track illicit content transfer which is to create some kind of reward system that enables the bearer of the content to get rewarded when sending to others; that way a User can buy new music for less money, the artist get a the most possible revenue and the sender get a reward. 
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingSixteen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixteen" aria-expanded="false" aria-controls="collapseSixteen">
+		  You can have a genuine affiliation or referral reward as any other company but what you are doing in general (selling or distributing) some else content without their consent is not legal and most of all not moral. You are also incriminating those who seed for you too.
+		</button>
+	      </h2>
+	      <div id="collapseSixteen" class="accordion-collapse collapse" aria-labelledby="headingSixteen" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  I am not selling any content without the owner’s consent.
+		</div>
+	      </div>
+	    </div> <!-- item -->
+
+
+	    <div class="accordion-item">
+	      <h2 class="accordion-header" id="headingSevenTeen">
+		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSevenTeen" aria-expanded="false" aria-controls="collapseSevenTeen">
+		  If it is legal show us some documents.
+		</button>
+	      </h2>
+	      <div id="collapseSevenTeen" class="accordion-collapse collapse" aria-labelledby="headingSevenTeen" data-bs-parent="#accordionExample">
+		<div class="accordion-body">
+		  Bt251 is a startup under a parent company Yishak
+		  Information Solution Which is Registred by Addis
+		  Ababa Trade Administration Bureau under the TIN
+		  0046957784
+		</div>
+	      </div>
+	    </div> <!-- item -->
+	    
+	  </div>
+	  
+	</div>
+      </div>
+
+
+      <div class="row card">
+	<div class="card-body">
+	  <p class="h4 card-title">Feeedbacks</p>
+	  
+	  <blockquote class="blockquote text-right">
+	    <p class="mb-0">bt251.com don't get discouraged at some comments. Such people will always be around and are just good signs of the progress you are making. Even if you are not a company, the negative people here should have encouraged you for the great work which they most probably have no idea about and suggest you to form a company instead of making trash comments like "I have super powers". I am just commenting to encourage the great work you are trying to achieve. Your kind of people will in the end win and that's what we want for the poor country we are living in..</p>
+	    <p></p>
+	    <footer class="blockquote-footer">D <cite title="Source Title">@Tech.et</cite></footer>
+	  </blockquote>
+
+	  <blockquote class="blockquote text-right">
+	    <p class="mb-0">[In reply to D]
+Great comment. The negative attitude from some people here is so cringe. Bt251.com demonstrated that the scheme is not pyramid as it doesn't traverse more than one level. Plus when he started the discussion he asked for a comment and areas to improve and people began insulting him. It is not identical to this, but even the reputed podcasters like Lex Friedman would ask their audience to buy a product from a website by putting their names so the consumer gets a discount and support the podcast. The guy might even need an idea how to establish his company and how to contact the artists. Why not try to encourage him and positively correct? He came up with a novel idea. Big ups to you bt251.com</p>
+	    <p></p>
+	    <footer class="blockquote-footer">Aki <cite title="Source Title">@Tech.et</cite></footer>
+	  </blockquote>
+
+	  <blockquote class="blockquote text-right">
+	    <p class="mb-0">Personally I don't think it's ponzi scheme. But I believe there are somethings which needs to be adjusted. I see some wrong lanes. It's always better spending more time than actual development on research, study and discussions when you launch a new business model specially in Ethiopia.</p>
+	    <p></p>
+	    <footer class="blockquote-footer">Namrud <cite title="Source Title">Tech.et</cite></footer>
+	  </blockquote>
+	  
+	</div>
+      </div>
+      
+  </body>
+
+
+  <div class="footer">
+    <div class="container">     
+      <div class="row">                       
+        <div class="col-lg-4 col-sm-4 col-xs-12">
+          <div class="single_footer">
+            <h4>Links</h4>
+            <ul class="list-unstyled">
+	      <li><a href="https://t.me/+J6WqEgOB6vRjZjE8">Telegram Group</a></li>
+	      <li><a href="https://t.me/bt251channel">Telegram Channel</a></li>	      
+              <li><a href="https://tiktok.com/@bt251.com">TikTok</a></li>
+	      <li><a href="https://linkedin.com/in/izakhizekiel/">LinkedIn</a></li>
+	      <li><a href="https://github.com/isaachizekiel">Github</a></li>
+	      <li><a href="tel:+251938706662">Telephone +251938706662</a></li>
+	      
+            </ul>
+          </div>
+        </div><!--- END COL --> 
+
+      </div><!--- END ROW --> 
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+          <p class="lead">By The People For The People <a href="#">BT251.com</a>.</p>
+        </div><!--- END COL -->                 
+      </div><!--- END ROW -->                 
+    </div><!--- END CONTAINER -->
+  </div>
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <script src="processing-0.5.packed.js"></script>
+  <script type="text/js" language="JavaScript"></script>
+</html>
